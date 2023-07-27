@@ -53,7 +53,7 @@ function detectMotion() {
 initCamera()
     .then(() => {
         // Once the camera is initialized, start the motion detection loop
-        detectMotion();
+        // detectMotion();
     })
     .catch((error) => {
         console.error('Camera initialization failed:', error);

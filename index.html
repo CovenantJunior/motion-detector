@@ -9,11 +9,53 @@
       width: 100%;
       height: 600px;
     }
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f7f7f7;
+        margin: 0;
+    }
+
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
+
+    .cool-button {
+        padding: 12px 24px;
+        font-size: 18px;
+        border: none;
+        background-color: #87CEFA; /* Light blue color */
+        color: #fff; /* White text color */
+        border-radius: 6px;
+        cursor: pointer;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: background-color 0.3s ease;
+    }
+
+    .cool-button:hover {
+        background-color: #5F9EA0; /* Lighter shade of light blue on hover */
+    }
+
+    .cool-button:focus {
+        outline: none;
+    }
+    .cool-button:active {
+        transform: translateY(2px);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
   </style>
 </head>
 <body>
   <video id="video" autoplay></video>
   <canvas id="canvas" style="display: none;"></canvas>
+  <div class="container">
+    <button type="button" onclick="detectMotion()" class="cool-button">Start Detecting</button>
+  </div>
   <script src="script.js"></script>
 </body>
 </html>
