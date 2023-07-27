@@ -50,7 +50,11 @@ function detectMotion() {
 }
 
 // Call the initCamera function to start the camera stream
-initCamera().then(() => {
-  // Once the camera is initialized, start the motion detection loop
-  requestAnimationFrame(detectMotion);
-});
+initCamera()
+    .then(() => {
+        // Once the camera is initialized, start the motion detection loop
+        detectMotion();
+    })
+    .catch((error) => {
+        console.error('Camera initialization failed:', error);
+    });
