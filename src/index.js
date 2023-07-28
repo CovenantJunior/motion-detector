@@ -4,7 +4,6 @@ import './index.css';
 import './App.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import Sensor from './Sensor';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
