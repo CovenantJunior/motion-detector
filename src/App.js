@@ -1,5 +1,4 @@
 import React, { useRef, useEffect, useState } from 'react';
-import './Sensor.css';
 
 const App = () => {
   const videoRef = useRef(null);
