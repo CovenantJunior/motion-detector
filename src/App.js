@@ -4,7 +4,7 @@ const App = () => {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const [backgroundFrame, setBackgroundFrame] = useState(null);
-
+  const [currentStream, setCurrentStream] = useState(null);
   useEffect(() => {
     initCamera();
   }, []);
@@ -13,9 +13,35 @@ const App = () => {
   const initCamera = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      setCurrentStream(stream);
       videoRef.current.srcObject = stream;
     } catch (err) {
       console.error('Error accessing the camera: ', err);
+    }
+  };
+  // Function to switch cameras
+  const switchCamera = async () => {
+    if (currentStream) {
+      currentStream.getTracks().forEach(track => track.stop());
+    }
+
+    try {
+      const devices = await navigator.mediaDevices.enumerateDevices();
+      const videoDevices = devices.filter(device => device.kind === 'videoinput');
+      console.log(devices)
+      let facingMode;
+      if (videoDevices.length > 1) {
+        facingMode = videoDevices[0].facingMode === 'user' ? 'environment' : 'user';
+      } else {
+        facingMode = 'user';
+      }
+
+      const constraints = { video: { facingMode: facingMode } };
+      const newStream = await navigator.mediaDevices.getUserMedia(constraints);
+      setCurrentStream(newStream);
+      videoRef.current.srcObject = newStream;
+    } catch (error) {
+      console.error('Error accessing media devices:', error);
     }
   };
 
@@ -64,8 +90,11 @@ const App = () => {
       <video id="video" ref={videoRef} autoPlay></video>
       <canvas id="canvas" ref={canvasRef} style={{ display: 'none' }}></canvas>
       <div className="container">
+        <button type="button" onClick={switchCamera} className="cool-button">
+          Switch Camera
+        </button>
         <button type="button" onClick={detectMotion} className="cool-button">
-          Double Tap
+          Tap
         </button>
       </div>
     </div>
