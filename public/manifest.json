@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Motion Sensor",
+  "name": "Motion Sensor: A web-based simulation using JavaScript that mimics a motion sensor's behavior.",
   "icons": [
     {
       "src": "favicon.ico",
