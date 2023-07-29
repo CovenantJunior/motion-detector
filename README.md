@@ -2,6 +2,15 @@
 
 Welcome to the Motion Sensor project! 🎉 This React application will bring out the inner detective in you as you explore the world of motion detection. Keep an eye on your surroundings and see if anything is moving suspiciously!
 
+
+## Badges
+
+Add badges from somewhere like: [shields.io](https://shields.io/)
+
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
+[![GPLv3 License](https://img.shields.io/badge/License-GPL%20v3-yellow.svg)](https://opensource.org/licenses/)
+[![AGPL License](https://img.shields.io/badge/license-AGPL-blue.svg)](http://www.gnu.org/licenses/agpl-3.0)
+
 ## Table of Contents 📚
 --------------------
 
@@ -81,29 +90,26 @@ The magic happens in the `App.js` file. We access the camera using the `navigato
 
 Here's a snippet of how we're doing it:
 
-javascriptCopy code
+```javascript
+    // ... (see App.js for the full code)
 
-`// ... (see App.js for the full code)
+    const detectMotion = () => {
+    // ... (code for drawing frames and motion detection)
 
-const detectMotion = () => {
-  // ... (code for drawing frames and motion detection)
+    if (diff > 100) {
+        // Do something when motion is detected (e.g., display an alert or change the background color)
+        document.body.style.backgroundColor = 'red';
+        break;
+    } else {
+        document.body.style.backgroundColor = 'white';
+    }
 
-  if (diff > 100) {
-    // Do something when motion is detected (e.g., display an alert or change the background color)
-    document.body.style.backgroundColor = 'red';
-    break;
-  } else {
-    document.body.style.backgroundColor = 'white';
-  }
+    // ... (more code for updating the background frame and requesting the next animation frame)
 
-  // ... (more code for updating the background frame and requesting the next animation frame)
+    };
 
-};
-
-// ... (see App.js for the full code)`
-
-`\
-`
+    // ... (see App.js for the full code)
+```
 
 
 ## Contributing 👥
