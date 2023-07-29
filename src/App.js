@@ -20,6 +20,7 @@ const App = () => {
     const videoDevices = devices.filter(device => device.kind === 'videoinput');
     SetDevices(videoDevices)
   }
+  
   // Function to set the video stream as the source for the video element
   const initCamera = async () => {
     try {
@@ -30,6 +31,7 @@ const App = () => {
       console.error('Error accessing the camera: ', err);
     }
   };
+
   // Function to switch cameras
   const switchCamera = async (deviceID) => {
     if (currentStream) {
@@ -95,8 +97,6 @@ const App = () => {
     // Update the backgroundFrame with the current frame for the next iteration
     backgroundFrame.set(frameData);
     requestAnimationFrame(detectMotion);
-
-
   };
 
   return (
