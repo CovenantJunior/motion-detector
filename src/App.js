@@ -93,7 +93,7 @@ const App = () => {
     }
 
     // Update the backgroundFrame with the current frame for the next iteration
-    setBackgroundFrame(new Uint8ClampedArray(frameData));
+    backgroundFrame.set(frameData);
     requestAnimationFrame(detectMotion);
 
 
