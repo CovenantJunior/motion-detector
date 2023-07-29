@@ -94,7 +94,7 @@ const App = () => {
           Switch Camera
         </button>
         <button type="button" onClick={detectMotion} className="cool-button">
-          Tap
+          Double Tap
         </button>
       </div>
     </div>
