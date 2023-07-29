@@ -34,7 +34,7 @@ Motion Sensor is a web application that utilizes your device's camera to detect 
 
 To get started with Motion Sensor, you'll need to have [Node.js](https://nodejs.org/) installed on your machine. Once you have Node.js, follow these simple steps:
 
-1.  Clone this repository to your local machine using your favorite Git client or by running `git clone https://github.com/your-username/motion-sensor.git` in your terminal.
+1.  Clone this repository to your local machine using your favorite Git client or by running `git clone https://github.com/CovenantJunior/motion-sensor.git` in your terminal.
 
 2.  Navigate to the project directory by running `cd motion-sensor`.
 
@@ -121,7 +121,7 @@ We welcome contributions to the Motion Sensor project! If you have any ideas for
 ## License 📜
 ----------
 
-The Motion Sensor project is licensed under the [MIT License](https://chat.openai.com/LICENSE), so you are free to use, modify, and distribute the code as you please. However, please note that using this app to catch actual criminals may require some additional detective skills. However, we are not responsible for any dance-offs that may ensue after using the Motion Sensor app! 🩰🕺
+The Motion Sensor project is licensed under the [MIT License](LICENSE), so you are free to use, modify, and distribute the code as you please. However, please note that using this app to catch actual criminals may require some additional detective skills. However, we are not responsible for any dance-offs that may ensue after using the Motion Sensor app! 🩰🕺
 
 * * * * *
 

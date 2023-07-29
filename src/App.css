@@ -1,13 +1,21 @@
-#video {
-  width: 100%;
-  height: 600px;
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+* {
+    font-family: 'Quicksand', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: 500;
 }
+
 body {
     justify-content: center;
     align-items: center;
     height: 100vh;
     background-color: #f7f7f7;
     margin: 0;
+}
+
+#video {
+    width: 100%;
+    height: 600px;
 }
 
 .container {
@@ -27,6 +35,7 @@ body {
     cursor: pointer;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s ease;
+    margin: 10px;
 }
 
 .cool-button:hover {
