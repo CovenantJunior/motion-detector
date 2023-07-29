@@ -5,10 +5,23 @@ const App = () => {
   const canvasRef = useRef(null);
   const [backgroundFrame, setBackgroundFrame] = useState(null);
   const [currentStream, setCurrentStream] = useState(null);
+  const [Devices, SetDevices] = useState([])
+  const [Camera, SetCamera] = useState('')
   useEffect(() => {
+    getCameras()
     initCamera();
   }, []);
 
+  useEffect(() => {
+    switchCamera(Camera)
+  }, [Camera])
+
+  //Function to get cameras available
+  const getCameras = async () => {
+    const devices = await navigator.mediaDevices.enumerateDevices();
+    const videoDevices = devices.filter(device => device.kind === 'videoinput');
+    SetDevices(videoDevices)
+  }
   // Function to set the video stream as the source for the video element
   const initCamera = async () => {
     try {
@@ -20,23 +33,13 @@ const App = () => {
     }
   };
   // Function to switch cameras
-  const switchCamera = async () => {
+  const switchCamera = async (cam) => {
     if (currentStream) {
       currentStream.getTracks().forEach(track => track.stop());
     }
 
     try {
-      const devices = await navigator.mediaDevices.enumerateDevices();
-      const videoDevices = devices.filter(device => device.kind === 'videoinput');
-      console.log(devices)
-      let facingMode;
-      if (videoDevices.length > 1) {
-        facingMode = videoDevices[0].facingMode === 'user' ? 'environment' : 'user';
-      } else {
-        facingMode = 'user';
-      }
-
-      const constraints = { video: { facingMode: facingMode } };
+      const constraints = { video: { facingMode: cam.facingMode } };
       const newStream = await navigator.mediaDevices.getUserMedia(constraints);
       setCurrentStream(newStream);
       videoRef.current.srcObject = newStream;
@@ -83,6 +86,7 @@ const App = () => {
     // Update the backgroundFrame with the current frame for the next iteration
     setBackgroundFrame(new Uint8ClampedArray(frameData));
     requestAnimationFrame(detectMotion);
+
   };
 
   return (
@@ -93,6 +97,16 @@ const App = () => {
         <button type="button" onClick={switchCamera} className="cool-button">
           Switch Camera
         </button>
+        {Devices && Devices.map((el) => {
+          return <select><option onChange={() => {
+            SetCamera(el)
+            console.log(el)
+
+          }} key={el.deviceID} >{el.label}</option>
+          </select>
+        })}
+
+
         <button type="button" onClick={detectMotion} className="cool-button">
           Tap
         </button>
