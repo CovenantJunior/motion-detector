@@ -12,9 +12,7 @@ const App = () => {
     initCamera();
   }, []);
 
-  useEffect(() => {
-    switchCamera(Camera)
-  }, [Camera])
+
 
   //Function to get cameras available
   const getCameras = async () => {
@@ -33,19 +31,30 @@ const App = () => {
     }
   };
   // Function to switch cameras
-  const switchCamera = async (cam) => {
+  const switchCamera = async (deviceID) => {
     if (currentStream) {
       currentStream.getTracks().forEach(track => track.stop());
     }
-
+    console.log(deviceID)
     try {
-      const constraints = { video: { facingMode: cam.facingMode } };
+      const constraints = deviceID ? { video: { deviceId: { exact: deviceID } } } : { video: true };
       const newStream = await navigator.mediaDevices.getUserMedia(constraints);
       setCurrentStream(newStream);
       videoRef.current.srcObject = newStream;
     } catch (error) {
-      console.error('Error accessing media devices:', error);
+      if (error.name === 'OverconstrainedError') {
+        // If OverconstrainedError occurs, try with no constraints
+        console.warn('OverconstrainedError: Trying with default constraints.');
+        switchCamera(null);
+      } else {
+        console.error('Error accessing media devices:', error);
+      }
     }
+  };
+
+  // Function to handle the option selection
+  const handleOptionChange = (event) => {
+    switchCamera(event.target.value);
   };
 
   // Function to capture a frame from the video and detect motion
@@ -87,6 +96,7 @@ const App = () => {
     setBackgroundFrame(new Uint8ClampedArray(frameData));
     requestAnimationFrame(detectMotion);
 
+
   };
 
   return (
@@ -94,21 +104,13 @@ const App = () => {
       <video id="video" ref={videoRef} autoPlay></video>
       <canvas id="canvas" ref={canvasRef} style={{ display: 'none' }}></canvas>
       <div className="container">
-        <button type="button" onClick={switchCamera} className="cool-button">
-          Switch Camera
-        </button>
-        {Devices && Devices.map((el) => {
-          return <select><option onChange={() => {
-            SetCamera(el)
-            console.log(el)
-
-          }} key={el.deviceID} >{el.label}</option>
-          </select>
-        })}
-
-
+        <select onChange={handleOptionChange}>{Devices && Devices.map((el) => {
+          return <option key={el.deviceID} value={el.deviceID} >{el.label}</option>
+        }
+        )}
+        </select>
         <button type="button" onClick={detectMotion} className="cool-button">
-          Double Tap
+          Tap
         </button>
       </div>
     </div>
