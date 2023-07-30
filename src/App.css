@@ -108,6 +108,6 @@ body {
 /* Mobile view */
 @media (max-width: 767px) {
     #video {
-        padding: 0 10px;
+        width: 95%;
     }
 }
