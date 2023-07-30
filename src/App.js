@@ -12,14 +12,6 @@ const App = () => {
     initCamera();
   }, []);
 
-
-
-  //Function to get cameras available
-  const getCameras = async () => {
-    const devices = await navigator.mediaDevices.enumerateDevices();
-    const videoDevices = devices.filter(device => device.kind === 'videoinput');
-    SetDevices(videoDevices)
-  }
   // Function to set the video stream as the source for the video element
   const initCamera = async () => {
     try {
@@ -30,6 +22,13 @@ const App = () => {
       console.error('Error accessing the camera: ', err);
     }
   };
+
+  //Function to get cameras available
+  const getCameras = async () => {
+    const devices = await navigator.mediaDevices.enumerateDevices();
+    const videoDevices = devices.filter(device => device.kind === 'videoinput');
+    SetDevices(videoDevices)
+  }
   // Function to switch cameras
   const switchCamera = async (deviceID) => {
     if (currentStream) {
