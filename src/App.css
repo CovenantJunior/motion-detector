@@ -75,7 +75,7 @@ body {
 .cool-select {
     background-color: #333;
     color: #fff;
-    border: 1px solid #666;
+    border: none;
     border-radius: 3px;
     padding: 5px;
     font-size: 14px;
