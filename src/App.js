@@ -106,12 +106,12 @@ const App = () => {
       <canvas id="canvas" ref={canvasRef} style={{ display: 'none' }}></canvas>
       <div className="container">
         <select onChange={handleOptionChange}>{Devices && Devices.map((el) => {
-          return <option key={el.deviceID} value={el.deviceID} >{el.label}</option>
-        }
-        )}
+              return <option key={el.deviceID} value={el.deviceID} >{el.label}</option>
+            }
+          )}
         </select>
         <button type="button" onClick={detectMotion} className="cool-button">
-          Tap
+          Double Tap
         </button>
       </div>
     </div>
