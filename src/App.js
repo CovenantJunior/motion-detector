@@ -105,7 +105,7 @@ const App = () => {
       <video id="video" ref={videoRef} autoPlay></video>
       <canvas id="canvas" ref={canvasRef} style={{ display: 'none' }}></canvas>
       <div className="container">
-        <select onChange={handleOptionChange}>{Devices && Devices.map((el) => {
+        <select className='cool-select' onChange={handleOptionChange}>{Devices && Devices.map((el) => {
               return <option key={el.deviceID} value={el.deviceID} >{el.label}</option>
             }
           )}

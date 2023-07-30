@@ -27,7 +27,7 @@ body {
 
 .cool-button {
     padding: 5px 15px;
-    font-size: 18px;
+    font-size: 15px;
     border: none;
     background-color: #1797e6; /* Light blue color */
     color: #fff; /* White text color */
@@ -57,6 +57,7 @@ body {
     }
     .container {
         height: 30px;
+        align-items: center;
     }
 }
 
@@ -69,3 +70,36 @@ body {
         height: 150px;
     }
 }
+
+/* CSS Rule for Cool Select Element with #1797e6 Color Scheme */
+.cool-select {
+    background-color: #333;
+    color: #fff;
+    border: 1px solid #666;
+    border-radius: 3px;
+    padding: 5px;
+    font-size: 14px;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  /* Styling the options inside the Cool Select */
+  .cool-select option {
+    background-color: #333;
+    color: #fff;
+  }
+  
+  /* Hover effect for the Cool Select */
+  .cool-select:hover {
+    background-color: #444;
+  }
+  
+  /* Primary Accent Color */
+  .cool-select, .cool-select option {
+    background-color: #1797e6;
+  }
+  
+  /* Text Color for Primary Accent */
+  .cool-select, .cool-select option {
+    color: #fff;
+  }
+  
