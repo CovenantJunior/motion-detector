@@ -12,14 +12,7 @@ const App = () => {
     initCamera();
   }, []);
 
-
-
-
-
-
-
-
-
+  //Hey Tea
 
   // Function to set the video stream as the source for the video element
   const initCamera = async () => {
