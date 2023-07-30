@@ -95,6 +95,17 @@ body {
     color: #fff;
 }
 
+.cool-button,
+.cool-select {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    transition: box-shadow 0.3s ease;
+}
+
+.cool-button:hover,
+.cool-select:hover {
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+}
+
 /* Mobile view */
 @media (max-width: 767px) {
     #video {
