@@ -25,7 +25,7 @@ body {
     max-width: 800px;
     height: auto;
     border-radius: 20px; /* Add rounded corners to the video element */
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Add a subtle shadow effect */
+    box-shadow: 0 18px 16px rgba(0, 0, 0, 0.3); /* Add a subtle shadow effect */
 }
 
 .container {
