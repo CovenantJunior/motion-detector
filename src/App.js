@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
+import buzzer from './audio/intrude.mp3';
 
 const App = () => {
   const videoRef = useRef(null);
@@ -12,7 +13,7 @@ const App = () => {
     initCamera();
   }, []);
 
-  //Hey Tea
+  // Hey Tea
 
   // Function to set the video stream as the source for the video element
   const initCamera = async () => {
@@ -31,6 +32,7 @@ const App = () => {
     const videoDevices = devices.filter(device => device.kind === 'videoinput');
     SetDevices(videoDevices)
   }
+
   // Function to switch cameras
   const switchCamera = async (deviceID) => {
     if (currentStream) {
@@ -57,6 +59,11 @@ const App = () => {
   const handleOptionChange = (event) => {
     switchCamera(event.target.value);
   };
+
+  function intruder() {
+    const buzz = document.getElementById('buzz')
+    buzz.play()
+  }
 
   // Function to capture a frame from the video and detect motion
   const detectMotion = () => {
@@ -86,6 +93,7 @@ const App = () => {
       // If the difference exceeds a threshold, mark it as motion (you can adjust the threshold value)
       if (diff > 100) {
         // Do something when motion is detected (e.g., display an alert or change the background color)
+        intruder();
         document.body.style.backgroundColor = 'red';
         break;
       } else {
@@ -112,6 +120,7 @@ const App = () => {
             }
           )}
         </select>
+        <audio id='buzz' src={buzzer}></audio>
         <button type="button" onClick={detectMotion} className="cool-button">
           Double Tap
         </button>
