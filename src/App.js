@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
+import buzzer from './audio/intrude.mp3';
 
 const App = () => {
   const videoRef = useRef(null);
@@ -6,25 +7,22 @@ const App = () => {
   const [backgroundFrame, setBackgroundFrame] = useState(null);
   const [currentStream, setCurrentStream] = useState(null);
   const [Devices, SetDevices] = useState([])
-  const [Camera, SetCamera] = useState('')
+  const [facingMode, setFacingMode] = useState('user'); // 'user' for front camera, 'environment' for back camera
   useEffect(() => {
-    getCameras()
+    if (!/(iPad|iPhone|iPod)/g.test(navigator.userAgent)) {
+      getCameras()
+    }
+
     initCamera();
   }, []);
 
+  // Hey Tea
 
-
-  //Function to get cameras available
-  const getCameras = async () => {
-    const devices = await navigator.mediaDevices.enumerateDevices();
-    const videoDevices = devices.filter(device => device.kind === 'videoinput');
-    SetDevices(videoDevices)
-  }
-  
   // Function to set the video stream as the source for the video element
   const initCamera = async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      const constraints = { video: { facingMode: facingMode } };
+      const stream = await navigator.mediaDevices.getUserMedia(constraints);
       setCurrentStream(stream);
       videoRef.current.srcObject = stream;
     } catch (err) {
@@ -32,12 +30,19 @@ const App = () => {
     }
   };
 
+  //Function to get cameras available
+  const getCameras = async () => {
+    const devices = await navigator.mediaDevices.enumerateDevices();
+    const videoDevices = devices.filter(device => device.kind === 'videoinput');
+    SetDevices(videoDevices)
+  }
+
   // Function to switch cameras
   const switchCamera = async (deviceID) => {
     if (currentStream) {
       currentStream.getTracks().forEach(track => track.stop());
     }
-    console.log(deviceID)
+
     try {
       const constraints = deviceID ? { video: { deviceId: { exact: deviceID } } } : { video: true };
       const newStream = await navigator.mediaDevices.getUserMedia(constraints);
@@ -58,6 +63,11 @@ const App = () => {
   const handleOptionChange = (event) => {
     switchCamera(event.target.value);
   };
+
+  function intruder() {
+    const buzz = document.getElementById('buzz')
+    buzz.play()
+  }
 
   // Function to capture a frame from the video and detect motion
   const detectMotion = () => {
@@ -87,6 +97,7 @@ const App = () => {
       // If the difference exceeds a threshold, mark it as motion (you can adjust the threshold value)
       if (diff > 100) {
         // Do something when motion is detected (e.g., display an alert or change the background color)
+        intruder();
         document.body.style.backgroundColor = 'red';
         break;
       } else {
@@ -97,20 +108,42 @@ const App = () => {
     // Update the backgroundFrame with the current frame for the next iteration
     backgroundFrame.set(frameData);
     requestAnimationFrame(detectMotion);
+
+
+  };
+  // Function to toggle between front and back cameras for iOS devices
+  const toggleCamera = () => {
+    const newFacingMode = facingMode === 'user' ? 'environment' : 'user';
+    setFacingMode(newFacingMode);
   };
 
   return (
     <div>
-      <video id="video" ref={videoRef} autoPlay></video>
+      <div className="video-container">
+        <video id="video" ref={videoRef} autoPlay></video>
+      </div>
       <canvas id="canvas" ref={canvasRef} style={{ display: 'none' }}></canvas>
       <div className="container">
-        <select onChange={handleOptionChange}>{Devices && Devices.map((el) => {
+
+        {/* Show the toggle button only on iOS devices */}
+        {(function () {
+
+          if (/(iPad|iPhone|iPod)/g.test(navigator.userAgent)) {
+
+            return <button type="button" onClick={toggleCamera} className="cool-button">
+              {facingMode === 'user' ? 'Switch to Back Camera' : 'Switch to Front Camera'}
+            </button>
+          } else {
+            return <select className='cool-select' onChange={handleOptionChange}>{Devices && Devices.map((el) => {
               return <option key={el.deviceID} value={el.deviceID} >{el.label}</option>
             }
-          )}
-        </select>
+            )}
+            </select>
+          }
+        })()}
+        <audio id='buzz' src={buzzer}></audio>
         <button type="button" onClick={detectMotion} className="cool-button">
-          Tap
+          Double Tap
         </button>
       </div>
     </div>
