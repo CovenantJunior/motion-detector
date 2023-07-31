@@ -7,9 +7,12 @@ const App = () => {
   const [backgroundFrame, setBackgroundFrame] = useState(null);
   const [currentStream, setCurrentStream] = useState(null);
   const [Devices, SetDevices] = useState([])
-  const [Camera, SetCamera] = useState('')
+  const [facingMode, setFacingMode] = useState('user'); // 'user' for front camera, 'environment' for back camera
   useEffect(() => {
-    getCameras()
+    if (!/(iPad|iPhone|iPod)/g.test(navigator.userAgent)) {
+      getCameras()
+    }
+
     initCamera();
   }, []);
 
@@ -18,7 +21,8 @@ const App = () => {
   // Function to set the video stream as the source for the video element
   const initCamera = async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      const constraints = { video: { facingMode: facingMode } };
+      const stream = await navigator.mediaDevices.getUserMedia(constraints);
       setCurrentStream(stream);
       videoRef.current.srcObject = stream;
     } catch (err) {
@@ -38,7 +42,7 @@ const App = () => {
     if (currentStream) {
       currentStream.getTracks().forEach(track => track.stop());
     }
-    console.log(deviceID)
+
     try {
       const constraints = deviceID ? { video: { deviceId: { exact: deviceID } } } : { video: true };
       const newStream = await navigator.mediaDevices.getUserMedia(constraints);
@@ -107,6 +111,11 @@ const App = () => {
 
 
   };
+  // Function to toggle between front and back cameras for iOS devices
+  const toggleCamera = () => {
+    const newFacingMode = facingMode === 'user' ? 'environment' : 'user';
+    setFacingMode(newFacingMode);
+  };
 
   return (
     <div>
@@ -115,11 +124,23 @@ const App = () => {
       </div>
       <canvas id="canvas" ref={canvasRef} style={{ display: 'none' }}></canvas>
       <div className="container">
-        <select className='cool-select' onChange={handleOptionChange}>{Devices && Devices.map((el) => {
+
+        {/* Show the toggle button only on iOS devices */}
+        {(function () {
+
+          if (/(iPad|iPhone|iPod)/g.test(navigator.userAgent)) {
+
+            return <button type="button" onClick={toggleCamera} className="cool-button">
+              {facingMode === 'user' ? 'Switch to Back Camera' : 'Switch to Front Camera'}
+            </button>
+          } else {
+            return <select className='cool-select' onChange={handleOptionChange}>{Devices && Devices.map((el) => {
               return <option key={el.deviceID} value={el.deviceID} >{el.label}</option>
             }
-          )}
-        </select>
+            )}
+            </select>
+          }
+        })()}
         <audio id='buzz' src={buzzer}></audio>
         <button type="button" onClick={detectMotion} className="cool-button">
           Double Tap
