@@ -105,6 +105,20 @@ body {
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
 }
 
+
+/* Fix for iOS Safari input shadow */
+.cool-button,
+.cool-select {
+    -webkit-appearance: none;
+}
+
+/* Disable tap highlight color on iOS Safari */
+.cool-button,
+.cool-select {
+    -webkit-tap-highlight-color: transparent;
+}
+
+
 /* Mobile view */
 @media (max-width: 767px) {
     #video {
