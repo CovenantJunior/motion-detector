@@ -34,6 +34,7 @@ const App = () => {
   const getCameras = async () => {
     const devices = await navigator.mediaDevices.enumerateDevices();
     const videoDevices = devices.filter(device => device.kind === 'videoinput');
+    console.log(videoDevices.deviceID)
     SetDevices(videoDevices)
   }
 
