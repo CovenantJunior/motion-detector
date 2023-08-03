@@ -34,7 +34,6 @@ const App = () => {
   const getCameras = async () => {
     const devices = await navigator.mediaDevices.enumerateDevices();
     const videoDevices = devices.filter(device => device.kind === 'videoinput');
-    console.log(videoDevices.deviceID)
     SetDevices(videoDevices)
   }
 
@@ -136,7 +135,7 @@ const App = () => {
             </button>
           } else {
             return <select className='cool-select' onChange={handleOptionChange}>{Devices && Devices.map((el) => {
-              return <option key={el.deviceID} value={el.deviceID} >{el.label}</option>
+              return <option key={el.label} value={el.deviceID} >{el.label}</option>
             }
             )}
             </select>
