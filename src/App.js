@@ -142,7 +142,7 @@ const App = () => {
             </button>
           } else {
             return <select className='cool-select' onChange={handleOptionChange}>{Devices && Devices.map((el) => {
-              return <option key={el.deviceID} value={el.deviceID} >{el.label}</option>
+              return <option key={el.label} value={el.deviceID} >{el.label}</option>
             }
             )}
             </select>
