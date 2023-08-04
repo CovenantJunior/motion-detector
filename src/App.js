@@ -8,7 +8,7 @@ const App = () => {
   const [currentStream, setCurrentStream] = useState(null);
   const [Devices, SetDevices] = useState([])
   const [facingMode, setFacingMode] = useState('user'); // 'user' for front camera, 'environment' for back camera
-  const [sensorStatus, setSensorStatus] = useState(null);
+  const [sensorStatus, setSensorStatus] = useState(false);
   useEffect(() => {
     if (!/(iPad|iPhone|iPod)/g.test(navigator.userAgent)) {
       getCameras()
@@ -71,11 +71,14 @@ const App = () => {
   }
 
   const deactivateSensor = () => {
+    console.log(sensorStatus);
     setSensorStatus(false);
+    console.log(sensorStatus);
   };
 
   // Function to capture a frame from the video and detect motion
   const activateSensor = () => {
+    console.log(sensorStatus);
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
 
@@ -91,27 +94,32 @@ const App = () => {
       return;
     }
 
-    // Compare the current frame with the background frame for motion detection
-    for (let i = 0; i < frameData.length; i += 4) {
-      // Calculate the absolute difference in pixel values between the frames
-      const diff =
-        Math.abs(frameData[i] - backgroundFrame[i]) +
-        Math.abs(frameData[i + 1] - backgroundFrame[i + 1]) +
-        Math.abs(frameData[i + 2] - backgroundFrame[i + 2]);
-
-      // If the difference exceeds a threshold, mark it as motion (you can adjust the threshold value)
-      if (diff > 100) {
-        // Do something when motion is detected (e.g., display an alert or change the background color)
-        if (sensorStatus === false) {
+    if (sensorStatus == null) {
+      setSensorStatus(true);
+      console.log(sensorStatus);
+    } else if (sensorStatus == true) {
+      for (let i = 0; i < frameData.length; i += 4) {
+        // Calculate the absolute difference in pixel values between the frames
+        const diff =
+          Math.abs(frameData[i] - backgroundFrame[i]) +
+          Math.abs(frameData[i + 1] - backgroundFrame[i + 1]) +
+          Math.abs(frameData[i + 2] - backgroundFrame[i + 2]);
+  
+        // If the difference exceeds a threshold, mark it as motion (you can adjust the threshold value)
+        if (diff > 100) {
+            console.log(sensorStatus);
+            // Do something when motion is detected (e.g., display an alert or change the background color)
+            intruder();
+            document.body.style.backgroundColor = 'red';
+            break;
+        } else {
+          document.body.style.backgroundColor = 'white';
           break;
         }
-        intruder();
-        document.body.style.backgroundColor = 'red';
-        setSensorStatus(true)
-        break;
-      } else {
-        document.body.style.backgroundColor = 'white';
       }
+    } else if (sensorStatus == false) {
+        console.log(sensorStatus);
+        setSensorStatus(false);
     }
 
     // Update the backgroundFrame with the current frame for the next iteration
