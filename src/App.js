@@ -4,11 +4,12 @@ import buzzer from './audio/intrude.mp3';
 const App = () => {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
-  const [backgroundFrame, setBackgroundFrame] = useState(null);
   const [currentStream, setCurrentStream] = useState(null);
   const [Devices, SetDevices] = useState([])
   const [facingMode, setFacingMode] = useState('user'); // 'user' for front camera, 'environment' for back camera
-  const [sensorStatus, setSensorStatus] = useState(null);
+  const [sensorStatus, setSensorStatus] = useState(false);
+  const [trigger, setTrigger] = useState(null);
+  const backgroundFrameRef = useRef(null);
   useEffect(() => {
     if (!/(iPad|iPhone|iPod)/g.test(navigator.userAgent)) {
       getCameras()
@@ -16,6 +17,11 @@ const App = () => {
 
     initCamera();
   }, []);
+
+  useEffect(() => {
+    if (sensorStatus)
+      sensorThing()
+  }, [sensorStatus, trigger])
 
   // Hey Tea
 
@@ -70,12 +76,16 @@ const App = () => {
     buzz.play()
   }
 
-  const deactivateSensor = () => {
+  const deActivateSensor = () => {
     setSensorStatus(false);
   };
 
   // Function to capture a frame from the video and detect motion
   const activateSensor = () => {
+    setSensorStatus(true);
+  };
+
+  const sensorThing = () => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
 
@@ -86,18 +96,17 @@ const App = () => {
     const frameData = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
 
     // If the backgroundFrame is not set, initialize it with the first frame
-    if (!backgroundFrame) {
-      setBackgroundFrame(new Uint8ClampedArray(frameData));
-      return;
+    if (!backgroundFrameRef.current) {
+      backgroundFrameRef.current = new Uint8ClampedArray(frameData)
     }
 
     // Compare the current frame with the background frame for motion detection
     for (let i = 0; i < frameData.length; i += 4) {
       // Calculate the absolute difference in pixel values between the frames
       const diff =
-        Math.abs(frameData[i] - backgroundFrame[i]) +
-        Math.abs(frameData[i + 1] - backgroundFrame[i + 1]) +
-        Math.abs(frameData[i + 2] - backgroundFrame[i + 2]);
+        Math.abs(frameData[i] - backgroundFrameRef.current[i]) +
+        Math.abs(frameData[i + 1] - backgroundFrameRef.current[i + 1]) +
+        Math.abs(frameData[i + 2] - backgroundFrameRef.current[i + 2]);
 
       // If the difference exceeds a threshold, mark it as motion (you can adjust the threshold value)
       if (diff > 100) {
@@ -107,17 +116,18 @@ const App = () => {
         }
         intruder();
         document.body.style.backgroundColor = 'red';
-        setSensorStatus(true)
+        // setSensorStatus(true)
         break;
       } else {
         document.body.style.backgroundColor = 'white';
       }
     }
 
-    // Update the backgroundFrame with the current frame for the next iteration
-    backgroundFrame.set(frameData);
-    requestAnimationFrame(activateSensor);
-  };
+    // Update the backgroundFrameRef.current with the current frame for the next iteration
+    backgroundFrameRef.current.set(frameData);
+    requestAnimationFrame(() => setTrigger(Date.now()));
+  }
+
   // Function to toggle between front and back cameras for iOS devices
   const toggleCamera = () => {
     const newFacingMode = facingMode === 'user' ? 'environment' : 'user';
@@ -150,11 +160,11 @@ const App = () => {
         })()}
         <audio id='buzz' src={buzzer}></audio>
         {
-          (sensorStatus == null) ?
-          <button type="button" onClick={activateSensor} className="cool-button">Double Tap</button> :
-          (sensorStatus == true) ?
-          <button type="button" onClick={deactivateSensor} className="cool-button">Deactivate Sensor</button> :
-          <button type="button" onClick={activateSensor} className="cool-button">Double Tap</button>
+          (sensorStatus === true)
+            ?
+            <button type="button" onClick={deActivateSensor} className="cool-button">Deactivate Sensor</button>
+            :
+            <button type="button" onClick={activateSensor} className="cool-button">Active Sensor</button>
         }
       </div>
     </div>
