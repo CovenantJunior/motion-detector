@@ -8,6 +8,7 @@ const App = () => {
   const [currentStream, setCurrentStream] = useState(null);
   const [Devices, SetDevices] = useState([])
   const [facingMode, setFacingMode] = useState('user'); // 'user' for front camera, 'environment' for back camera
+  const [sensorStatus, setSensorStatus] = useState(null);
   useEffect(() => {
     if (!/(iPad|iPhone|iPod)/g.test(navigator.userAgent)) {
       getCameras()
@@ -69,8 +70,12 @@ const App = () => {
     buzz.play()
   }
 
+  const deactivateSensor = () => {
+    setSensorStatus(false);
+  };
+
   // Function to capture a frame from the video and detect motion
-  const detectMotion = () => {
+  const activateSensor = () => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
 
@@ -97,8 +102,12 @@ const App = () => {
       // If the difference exceeds a threshold, mark it as motion (you can adjust the threshold value)
       if (diff > 100) {
         // Do something when motion is detected (e.g., display an alert or change the background color)
+        if (sensorStatus === false) {
+          break;
+        }
         intruder();
         document.body.style.backgroundColor = 'red';
+        setSensorStatus(true)
         break;
       } else {
         document.body.style.backgroundColor = 'white';
@@ -107,9 +116,7 @@ const App = () => {
 
     // Update the backgroundFrame with the current frame for the next iteration
     backgroundFrame.set(frameData);
-    requestAnimationFrame(detectMotion);
-
-
+    requestAnimationFrame(activateSensor);
   };
   // Function to toggle between front and back cameras for iOS devices
   const toggleCamera = () => {
@@ -142,9 +149,13 @@ const App = () => {
           }
         })()}
         <audio id='buzz' src={buzzer}></audio>
-        <button type="button" onClick={detectMotion} className="cool-button">
-          Double Tap
-        </button>
+        {
+          (sensorStatus == null) ?
+          <button type="button" onClick={activateSensor} className="cool-button">Double Tap</button> :
+          (sensorStatus == true) ?
+          <button type="button" onClick={deactivateSensor} className="cool-button">Deactivate Sensor</button> :
+          <button type="button" onClick={activateSensor} className="cool-button">Double Tap</button>
+        }
       </div>
     </div>
   );
