@@ -8,7 +8,7 @@ const App = () => {
   const [currentStream, setCurrentStream] = useState(null);
   const [Devices, SetDevices] = useState([])
   const [facingMode, setFacingMode] = useState('user'); // 'user' for front camera, 'environment' for back camera
-  const [sensorStatus, setSensorStatus] = useState(false);
+  const [sensorStatus, setSensorStatus] = useState(null);
   useEffect(() => {
     if (!/(iPad|iPhone|iPod)/g.test(navigator.userAgent)) {
       getCameras()
