@@ -124,7 +124,6 @@ const App = () => {
         break;
       } else {
         document.body.style.backgroundColor = 'white';
-
       }
     } else if (sensorStatus == false) {
         console.log(sensorStatus);
