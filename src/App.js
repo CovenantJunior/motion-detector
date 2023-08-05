@@ -97,7 +97,7 @@ const App = () => {
 
     // If the backgroundFrame is not set, initialize it with the first frame
     if (!backgroundFrameRef.current) {
-      backgroundFrameRef.current = new Uint8ClampedArray(frameData)
+      backgroundFrameRef.current = new Uint8ClampedArray(frameData);
     }
 
     // Compare the current frame with the background frame for motion detection
