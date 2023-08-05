@@ -76,7 +76,6 @@ const App = () => {
     buzz.play()
   }
 
-
   const deActivateSensor = () => {
     setSensorStatus(false);
     console.log(sensorStatus);
