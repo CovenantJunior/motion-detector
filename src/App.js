@@ -72,7 +72,7 @@ const App = () => {
   };
 
   function intruder() {
-    const buzz = document.getElementById('buzz')
+    const buzz = document.getElementById('buzz');
     buzz.play()
   }
 
