@@ -72,18 +72,16 @@ const App = () => {
   };
 
   function intruder() {
-    const buzz = document.getElementById('buzz');
+    const buzz = document.getElementById('buzz')
     buzz.play()
   }
 
   const deActivateSensor = () => {
     setSensorStatus(false);
-    console.log(sensorStatus);
   };
 
   // Function to capture a frame from the video and detect motion
   const activateSensor = () => {
-
     setSensorStatus(true);
   };
 
@@ -101,7 +99,6 @@ const App = () => {
     if (!backgroundFrameRef.current) {
       backgroundFrameRef.current = new Uint8ClampedArray(frameData)
     }
-
 
     // Compare the current frame with the background frame for motion detection
     for (let i = 0; i < frameData.length; i += 4) {
@@ -124,9 +121,6 @@ const App = () => {
       } else {
         document.body.style.backgroundColor = 'white';
       }
-    } else if (sensorStatus == false) {
-        console.log(sensorStatus);
-        setSensorStatus(false);
     }
 
     // Update the backgroundFrameRef.current with the current frame for the next iteration
