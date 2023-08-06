@@ -99,7 +99,7 @@ const App = () => {
 
     // If the backgroundFrame is not set, initialize it with the first frame
     if (!backgroundFrameRef.current) {
-      backgroundFrameRef.current = new Uint8ClampedArray(frameData)
+      backgroundFrameRef.current = new Uint8ClampedArray(frameData);
     }
 
     // Compare the current frame with the background frame for motion detection
@@ -114,6 +114,7 @@ const App = () => {
       if (diff > 100) {
         // Do something when motion is detected (e.g., display an alert or change the background color)
         if (sensorStatus === false) {
+          document.body.style.backgroundColor = 'white';
           break;
         }
         intruder();
@@ -164,10 +165,15 @@ const App = () => {
         {
           (sensorStatus === true)
             ?
+            // We should use and deactivate icon (update)
             <button type="button" onClick={deActivateSensor} className="cool-button">Deactivate Sensor</button>
             :
+            // We should use and activate icon (update)
             <button type="button" onClick={activateSensor} className="cool-button">Active Sensor</button>
         }
+      </div>
+      <div>
+        {/* Control pallette to by added here, for user preference and nicer UI/UX. */}
       </div>
     </div>
   );
