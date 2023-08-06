@@ -170,7 +170,7 @@ const App = () => {
         }
       </div>
       <div>
-        // Control pallette to by added here, for user preference and nicer UI/UX
+        <!-- Control pallette to by added here, for user preference and nicer UI/UX. -->
       </div>
     </div>
   );
