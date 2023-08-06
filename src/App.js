@@ -169,6 +169,9 @@ const App = () => {
             <button type="button" onClick={activateSensor} className="cool-button">Active Sensor</button>
         }
       </div>
+      <div>
+        // Control pallette to by added here, for user preference and nicer UI/UX
+      </div>
     </div>
   );
 };
