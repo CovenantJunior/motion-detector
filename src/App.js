@@ -76,15 +76,17 @@ const App = () => {
     buzz.play()
   }
 
+  // Function to deactivate motion detection
   const deActivateSensor = () => {
     setSensorStatus(false);
   };
 
-  // Function to capture a frame from the video and detect motion
+  // Function to activate motion detection
   const activateSensor = () => {
     setSensorStatus(true);
   };
 
+  // Function to capture a frame from the video and detect motion
   const sensorThing = () => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
