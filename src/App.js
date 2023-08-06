@@ -112,6 +112,7 @@ const App = () => {
       if (diff > 100) {
         // Do something when motion is detected (e.g., display an alert or change the background color)
         if (sensorStatus === false) {
+          document.body.style.backgroundColor = 'white';
           break;
         }
         intruder();
