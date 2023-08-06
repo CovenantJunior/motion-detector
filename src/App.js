@@ -79,6 +79,8 @@ const App = () => {
   // Function to deactivate motion detection
   const deActivateSensor = () => {
     setSensorStatus(false);
+    // Force set to white background
+    document.body.style.backgroundColor = 'white';
   };
 
   // Function to activate motion detection
