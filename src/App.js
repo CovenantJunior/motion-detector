@@ -49,7 +49,7 @@ const App = () => {
     if (currentStream) {
       currentStream.getTracks().forEach(track => track.stop());
     }
-
+  
     try {
       const constraints = deviceID ? { video: { deviceId: { exact: deviceID } } } : { video: true };
       const newStream = await navigator.mediaDevices.getUserMedia(constraints);
@@ -69,6 +69,7 @@ const App = () => {
   // Function to handle the option selection
   const handleOptionChange = (event) => {
     switchCamera(event.target.value);
+    console.log(event.target.value);
   };
 
   function intruder() {
@@ -142,7 +143,7 @@ const App = () => {
   return (
     <div>
       <div className="video-container">
-        <video id="video" ref={videoRef} autoPlay></video>
+        <video id="video" ref={videoRef} autoPlay loop muted playsInline></video>
       </div>
       <canvas id="canvas" ref={canvasRef} style={{ display: 'none' }}></canvas>
       <div className="container">
