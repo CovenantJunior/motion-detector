@@ -168,11 +168,11 @@ const App = () => {
         {
           (sensorStatus === true)
             ?
-            // We should use and deactivate icon (update)
+            // We should use an deactivate icon (update)
             <button type="button" onClick={deActivateSensor} className="cool-button">Deactivate Sensor</button>
             :
-            // We should use and activate icon (update)
-            <button type="button" onClick={activateSensor} className="cool-button">Active Sensor</button>
+            // We should use an activate icon (update)
+            <button type="button" onClick={activateSensor} className="cool-button">Activate Sensor</button>
         }
       </div>
       <div>
