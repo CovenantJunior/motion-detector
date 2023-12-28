@@ -61,7 +61,7 @@ Our Motion Detector project comes packed with a range of amazing features, inclu
 
 -   Real-time motion detection.
 -   Responsive design for seamless use on various devices.
--   A stylish "Double Tap" button to trigger the magic.
+-   A stylish toggle button to trigger the magic.
 -   Easily customizable threshold for motion detection (experiment and have fun!).
 -   Graceful error handling if the camera access is denied or unavailable.
 
