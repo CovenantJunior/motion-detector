@@ -60,9 +60,11 @@ Once you have the project set up, follow these steps to start detecting motion:
 Our Motion Detector project comes packed with a range of amazing features, including:
 
 -   Real-time motion detection.
+-   **Automatic screenshots captured and saved to a gallery when motion is detected.**
 -   Responsive design for seamless use on various devices.
 -   A stylish toggle button to trigger the magic.
--   Easily customizable threshold for motion detection (experiment and have fun!).
+-   Easily customizable threshold for motion detection with dynamic slider controls.
+-   Toggles to enable/disable alarm sounds and screenshot captures on the fly.
 -   Graceful error handling if the camera access is denied or unavailable.
 
 
@@ -73,15 +75,15 @@ Here's a brief overview of how the Motion Detector app works:
 
 1.  When you start the app, it initializes the camera and sets the video stream as the source for the video element.
 
-2.  Upon clicking the "Double Tap" button, the app captures a frame from the video stream and detects motion.
+2.  Upon clicking the "Activate Sensor" button, the app captures a frame from the video stream and detects motion.
 
 3.  To detect motion, it compares the current frame with the background frame (initial frame).
 
-4.  If the difference in pixel values between the frames exceeds the threshold, it triggers the motion detection action (changing the background color to red).
+4.  If the percentage of shifted pixels exceeds the defined threshold, it triggers the motion detection (turning the background red, playing a sound, and generating a screenshot in the gallery).
 
 5.  The app then updates the background frame with the current frame for the next iteration.
 
-6.  The motion detection process continues as long as the "Double Tap" button is active.
+6.  The motion detection process continues as long as the sensor is active.
 
 Here's a breakdown:
 The Motion Detector uses the `getUserMedia` API to access your device's camera stream. It then captures the video frames, compares them to detect motion, and performs some cool actions when motion is detected!
@@ -96,10 +98,10 @@ Here's a snippet of how we're doing it:
     const detectMotion = () => {
     // ... (code for drawing frames and motion detection)
 
-    if (diff > 100) {
-        // Do something when motion is detected (e.g., display an alert or change the background color)
+    if (percentageChanged > motionSensitivity) {
+        intruder();
+        captureScreenshot();
         document.body.style.backgroundColor = 'red';
-        break;
     } else {
         document.body.style.backgroundColor = 'white';
     }
